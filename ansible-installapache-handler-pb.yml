@@ -20,6 +20,8 @@
           copy:
                src: prem.txt
                dest: "{{copypath}}"
+          notify: restart apache2     
+  handlers:             
         - name: restart apache2
           service:
                   name: apache2

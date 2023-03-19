@@ -1,0 +1,8 @@
+- name: Role test
+  hosts: webservers
+  become: yes
+  vars_prompt:
+          name: timeout
+          prompt: Enter timeout
+  roles:
+     - prem.apache2

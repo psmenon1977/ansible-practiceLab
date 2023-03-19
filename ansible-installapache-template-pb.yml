@@ -1,0 +1,15 @@
+- name: first play
+  hosts: webservers
+  become: yes
+  vars_prompt:
+          name: myname
+          prompt: Enter your name
+  tasks:
+       - name: apt task
+         apt:
+                 name: apache2
+                 state: present
+       - name: template task
+         template:
+                 src: index.html
+                 dest: /var/www/html

@@ -1,0 +1,16 @@
+---
+# tasks file for prem.apache2
+- name: Install task
+  apt:
+      name: apache2
+      state: present
+- name: Copy task
+  copy:
+      src: 1.yaml
+      dest: /opt
+- name: template task
+  template:
+          src: apache2.conf
+          dest: /etc/apache2
+  notify:
+       - restart apache2
