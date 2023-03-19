@@ -1,0 +1,42 @@
+- name: my first ansible playbook 
+  hosts: webservers
+  vars:
+     printMsg:  Completed all tasks
+  vars_prompt:
+          name: copypath
+          prompt: Enter copy path
+          private: no
+  become: yes
+  tasks:
+        - name: Apt get update
+          apt:
+                upgrade: yes
+                update_cache: yes
+          when: ansible_os_family == "Debian"      
+        - name: Yum get update
+          yum:
+               name: "*"
+               state: latest
+          when: ansible_os_family == "RedHat"               
+        - name: Installation task
+          apt:
+               name: apache2
+               state: present
+          when:  ansible_os_family == "Debian"
+        - name: Yum get update
+          yum:
+               name: apache2
+               state: present
+          when: ansible_os_family == "RedHat"  
+        - name: Copy task
+          copy:
+               src: prem.txt
+               dest: "{{copypath}}"
+        - name: restart apache2
+          service:
+                  name: apache2
+                  state: restarted
+          register: out
+        - name: Debug test
+          debug:
+              msg: "{{out.state}}, {{printMsg}}"
